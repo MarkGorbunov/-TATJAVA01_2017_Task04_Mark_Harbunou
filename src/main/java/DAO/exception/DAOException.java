@@ -1,6 +1,9 @@
 package DAO.exception;
 
 /**
+ *  * Class that contain Dao Exception
+
+ *
  * Created by Mark_Harbunou on 2/1/2017.
  */
 public class DAOException extends Exception {

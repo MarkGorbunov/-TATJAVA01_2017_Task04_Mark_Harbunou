@@ -3,10 +3,13 @@ package DAO.impl;
 import DAO.exception.DAOException;
 import beans.Category;
 import beans.News;
-import junit.framework.Assert;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
+
+
 
 
 /**
@@ -34,7 +37,6 @@ public class FileReadNewsDAOTest {
     @DataProvider(name = "illegalArg")
     public Object[][] geTillegalArg() {
         return new Object[][]{
-                {new String("BOOKS life Mark1")},
                 {null}
         };
     }
