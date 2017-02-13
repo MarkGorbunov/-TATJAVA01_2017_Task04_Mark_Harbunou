@@ -1,27 +1,29 @@
 package DAO.impl;
 
+import DAO.connectingPool.ConnectingPool;
+import DAO.connectingPool.exception.ConnectingPoolException;
 import DAO.exception.DAOException;
 import bean.Category;
 import bean.News;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
-
+import java.sql.*;
 
 
 /**
  * Created by Mark_Harbunou on 2/2/2017.
  */
-public class FileReadNewsDAOTest {
+public class ReadNewsDAOTest {
+    ConnectingPool connectingPool = ConnectingPool.getInstance();
     ReadNewsDAO fileRead;
+    Connection connection;
 
-
-    @BeforeMethod
-    public void setUp() {
+    @BeforeTest
+    public void connectionCreate() throws SQLException, ConnectingPoolException {
+        connectingPool.initPoolData();
         fileRead = new ReadNewsDAO();
-
     }
 
     @DataProvider(name = "legalArg")
@@ -41,23 +43,30 @@ public class FileReadNewsDAOTest {
     }
 
     @Test(dataProvider = "legalArg")
-    public void positiveTestForAddNews(News news) throws DAOException {
+    public void positiveTestForAddNews(News news) throws Exception {
         fileRead.addNews(news);
     }
 
     @Test(dataProvider = "legalArg")
     public void positiveTestForFindNews(News news) throws DAOException {
-        fileRead.findNews(news);
+        Assert.assertEquals("|Category=" + news.getCategory().toString() + "|Title=" +
+                news.getTitle() + "|Author=" + news.getAuthor() + "|",fileRead.findNews(news));
     }
 
-    @Test(dataProvider = "illegalArg", expectedExceptions = DAOException.class)
+    @Test(dataProvider = "illegalArg", expectedExceptions = NullPointerException.class)
     public void negativeTestForAddNews(News news) throws DAOException {
         fileRead.addNews(news);
     }
 
-    @Test(dataProvider = "illegalArg" ,expectedExceptions = DAOException.class)
+    @Test(dataProvider = "illegalArg", expectedExceptions = NullPointerException.class)
     public void negativeTestForFindNews(News news) throws DAOException {
         fileRead.findNews(news);
+    }
+
+
+    @AfterTest
+    public void destroyConnection() throws Exception {
+       connectingPool.dispose();
     }
 
 }

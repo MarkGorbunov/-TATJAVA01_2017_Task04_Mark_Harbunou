@@ -1,6 +1,7 @@
 package DAO;
 
 
+import DAO.connectingPool.exception.ConnectingPoolException;
 import DAO.exception.DAOException;
 import bean.News;
 

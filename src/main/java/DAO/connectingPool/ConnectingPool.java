@@ -1,6 +1,7 @@
 package DAO.connectingPool;
 
 import DAO.connectingPool.exception.ConnectingPoolException;
+import DAO.factory.DAOFactory;
 
 import java.sql.*;
 import java.util.Locale;
@@ -15,6 +16,8 @@ import java.util.concurrent.Executor;
  */
 public final class ConnectingPool {
 
+    private static final ConnectingPool instance = new ConnectingPool();
+
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConQueue;
 
@@ -23,7 +26,11 @@ public final class ConnectingPool {
     private String password;
     private int poolSize;
 
-    public ConnectingPool() {
+    public static ConnectingPool getInstance() {
+        return instance;
+    }
+
+    private ConnectingPool() {
         DBResourseManager dbResourseManager = DBResourseManager.getInstance();
         this.url = dbResourseManager.getValue(DBParameter.DB_URL);
         this.user = dbResourseManager.getValue(DBParameter.DB_USER);
@@ -37,6 +44,7 @@ public final class ConnectingPool {
 
     /**
      * method that initialize bundle of connection
+     *
      * @throws ConnectingPoolException
      */
     public void initPoolData() throws ConnectingPoolException {
@@ -58,16 +66,16 @@ public final class ConnectingPool {
     /**
      * method that destroy connection
      */
-    public void dispose() {
+    public void dispose() throws ConnectingPoolException {
         clearConnectionQueue();
     }
 
-    private void clearConnectionQueue() {
+    private void clearConnectionQueue() throws ConnectingPoolException {
         try {
             closeConectionQueue(givenAwayConQueue);
             closeConectionQueue(connectionQueue);
         } catch (SQLException e) {
-
+            throw new ConnectingPoolException("SQL exception in dispose", e);
         }
     }
 
