@@ -1,10 +1,8 @@
 package service;
 
-import beans.News;
+import DAO.exception.DAOException;
+import bean.News;
 import service.exeption.ServiceException;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by Mark_Harbunou on 2/1/2017.
@@ -16,7 +14,7 @@ public interface NewsService {
      * @param news
      * @throws ServiceException
      */
-    void addNews(String news) throws ServiceException;
+    void addNews(News news) throws ServiceException;
 
     /**
      * method that find news
@@ -25,5 +23,19 @@ public interface NewsService {
      * @return found news
      * @throws ServiceException
      */
-    String findNews(String news) throws ServiceException;
+    String findNews(News news) throws ServiceException;
+
+    /**
+     * method that call connection create in dao
+     *
+     * @throws ServiceException
+     */
+    void connectionCreate() throws ServiceException;
+
+    /**
+     * method that call connection destroy in dao
+     *
+     * @throws ServiceException
+     */
+    void connectionDestroy() throws ServiceException;
 }

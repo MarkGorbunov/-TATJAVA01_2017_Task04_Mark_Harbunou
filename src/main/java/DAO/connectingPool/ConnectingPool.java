@@ -1,7 +1,6 @@
 package DAO.connectingPool;
 
 import DAO.connectingPool.exception.ConnectingPoolException;
-import _java._se._07._connectionpool.DBParameter;
 
 import java.sql.*;
 import java.util.Locale;
@@ -19,15 +18,13 @@ public final class ConnectingPool {
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConQueue;
 
-    private String driverName;
     private String url;
     private String user;
     private String password;
     private int poolSize;
 
-    private ConnectingPool() {
+    public ConnectingPool() {
         DBResourseManager dbResourseManager = DBResourseManager.getInstance();
-        this.driverName = dbResourseManager.getValue(DBParameter.DB_DRIVER);
         this.url = dbResourseManager.getValue(DBParameter.DB_URL);
         this.user = dbResourseManager.getValue(DBParameter.DB_USER);
         this.password = dbResourseManager.getValue(DBParameter.DB_PASSWORD);
@@ -38,11 +35,14 @@ public final class ConnectingPool {
         }
     }
 
+    /**
+     * method that initialize bundle of connection
+     * @throws ConnectingPoolException
+     */
     public void initPoolData() throws ConnectingPoolException {
         Locale.setDefault(Locale.ENGLISH);
 
         try {
-            Class.forName(driverName);
             givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
             connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
             for (int i = 0; i < poolSize; i++) {
@@ -52,11 +52,12 @@ public final class ConnectingPool {
             }
         } catch (SQLException e) {
             throw new ConnectingPoolException("SQL exception in connectionPool", e);
-        } catch (ClassNotFoundException e) {
-            throw new ConnectingPoolException("can't find database driver class", e);
         }
     }
 
+    /**
+     * method that destroy connection
+     */
     public void dispose() {
         clearConnectionQueue();
     }

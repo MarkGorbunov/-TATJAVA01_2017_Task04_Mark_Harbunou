@@ -1,6 +1,6 @@
 package DAO.factory;
 
-import DAO.impl.FileReadNewsDAO;
+import DAO.impl.ReadNewsDAO;
 import DAO.NewsDAO;
 
 /**
@@ -10,7 +10,7 @@ import DAO.NewsDAO;
  */
 public final class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
-    private final NewsDAO fileReadNewsImpl = new FileReadNewsDAO();
+    private final NewsDAO ReadNewsImpl = new ReadNewsDAO();
 
     private DAOFactory() {}
     /**
@@ -27,7 +27,7 @@ public final class DAOFactory {
      *
      * @return filereadnewsDAO
      */
-    public NewsDAO getFileReadNewsImpl() {
-        return  fileReadNewsImpl;
+    public NewsDAO getReadNewsImpl() {
+        return ReadNewsImpl;
     }
 }

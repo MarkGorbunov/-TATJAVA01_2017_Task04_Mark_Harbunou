@@ -15,6 +15,10 @@ import java.util.Map;
 public class CommandProvider {
 
     private final Map<CommandName, Command> repository = new HashMap<>();
+
+    /**
+     * method that initialize command if it exist
+     */
     CommandProvider(){
         repository.put(CommandName.ADD_NEWS,new AddNews());
         repository.put(CommandName.FIND_NEWS,new FindNews());
@@ -27,8 +31,8 @@ public class CommandProvider {
      * @return entered name of command if it exist else return wrong request
      */
     Command getCommand(String name){
-        CommandName commandName =null;
-        Command command = null;
+        CommandName commandName;
+        Command command;
         try{
             commandName = CommandName.valueOf(name.toUpperCase());
             command = repository.get(commandName);

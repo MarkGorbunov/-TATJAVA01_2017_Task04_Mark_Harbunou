@@ -1,6 +1,7 @@
 package controller.impl;
 
 
+import bean.News;
 import controller.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,34 +13,31 @@ import service.factory.ServiceFactory;
 
 /**
  * Class that transfer request(find news) to service and return result of finding
- *
+ * <p>
  * Created by Mark_Harbunou on 2/1/2017.
  */
 public class FindNews implements Command {
-    final Logger logger = LogManager.getLogger(FindNews.class.getName());
+    private final ServiceFactory serviceFactory = ServiceFactory.getInstance();
+    private final NewsService newsService = serviceFactory.getNewsService();
+    private static Logger logger = LogManager.getLogger(FindNews.class.getName());
 
     /**
      * method that transfer request(find news)to service and return result of adding
      *
-     * @param request from View
+     * @param news from View
      * @return result of request
      */
     @Override
-    public String execute(String request) {
-
-        ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        NewsService newsService = serviceFactory.getNewsService();
-
+    public String execute(News news) {
         try {
             if (logger.isDebugEnabled()) {
                 logger.debug("FindNewsLogger in debug");
             }
-            return newsService.findNews(request);
+            return newsService.findNews(news);
 
         } catch (ServiceException e) {
-            logger.error("error message: " + e.getMessage());
-            logger.fatal("fatal error message: " + e.getMessage());
-            return "News not found";
+            logger.error("error message: " + e);
+            return "error during findNews procedure";
         }
     }
 

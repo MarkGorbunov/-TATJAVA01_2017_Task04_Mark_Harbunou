@@ -1,4 +1,4 @@
-package beans;
+package bean;
 
 /**
  * ENUM that contains category of News

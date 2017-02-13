@@ -1,5 +1,6 @@
 package controller.impl;
 
+import bean.News;
 import controller.Command;
 
 /**
@@ -11,11 +12,11 @@ public class WrongRequest implements Command {
     /**
      * method that return responce(wrong request) if request was incorrect
      *
-     * @param request from View
+     * @param news from View
      * @return result of request
      */
     @Override
-    public String execute(String request) {
+    public String execute(News news) {
         String responce = "Wrong request";
         return responce;
     }

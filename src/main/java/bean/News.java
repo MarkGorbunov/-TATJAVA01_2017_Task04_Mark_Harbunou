@@ -1,19 +1,21 @@
-package beans;
+package bean;
+
+import java.io.Serializable;
 
 /**
  * Class that contain information about one news,have  setters and getters
  *
  * Created by Mark_Harbunou on 1/30/2017.
  */
-public class News {
+public class News implements Serializable{
     private Category category;
     private String title;
     private String author;
 
 
-    public News(Category category, String genre, String author) {
+    public News(Category category, String title, String author) {
         this.category = category;
-        this.title = genre;
+        this.title = title;
         this.author = author;
     }
 
@@ -65,5 +67,23 @@ public class News {
         this.author = author;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof News)) return false;
 
+        News news = (News) o;
+
+        if (category != news.category) return false;
+        if (title != null ? !title.equals(news.title) : news.title != null) return false;
+        return author != null ? author.equals(news.author) : news.author == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = category != null ? category.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        return result;
+    }
 }

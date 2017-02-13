@@ -1,12 +1,11 @@
 package DAO.impl;
 
 import DAO.exception.DAOException;
-import beans.Category;
-import beans.News;
+import bean.Category;
+import bean.News;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
 
@@ -16,12 +15,12 @@ import org.testng.annotations.Test;
  * Created by Mark_Harbunou on 2/2/2017.
  */
 public class FileReadNewsDAOTest {
-    FileReadNewsDAO fileRead;
+    ReadNewsDAO fileRead;
 
 
     @BeforeMethod
     public void setUp() {
-        fileRead = new FileReadNewsDAO();
+        fileRead = new ReadNewsDAO();
 
     }
 
