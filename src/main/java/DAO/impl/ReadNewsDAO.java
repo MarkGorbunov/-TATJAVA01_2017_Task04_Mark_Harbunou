@@ -102,7 +102,7 @@ public class ReadNewsDAO implements NewsDAO {
             ps.setString(3, news.getAuthor());
             ps.executeQuery();
             rs = ps.executeQuery();
-            return newsChecker(rs);
+            return newsShaper(rs);
         } catch (SQLException e) {
             throw new DAOException(e);
         } catch (ConnectingPoolException e) {
@@ -132,7 +132,7 @@ public class ReadNewsDAO implements NewsDAO {
      * @param rs
      * @return
      */
-    private News newsChecker(ResultSet rs) throws DAOException {
+    private News newsShaper(ResultSet rs) throws DAOException {
         String category = null;
         String title = null;
         String author = null;

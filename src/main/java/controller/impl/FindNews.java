@@ -17,8 +17,6 @@ import service.factory.ServiceFactory;
  * Created by Mark_Harbunou on 2/1/2017.
  */
 public class FindNews implements Command {
-    private final ServiceFactory serviceFactory = ServiceFactory.getInstance();
-    private final NewsService newsService = serviceFactory.getNewsService();
     private static Logger logger = LogManager.getLogger(FindNews.class.getName());
 
     /**
@@ -29,6 +27,8 @@ public class FindNews implements Command {
      */
     @Override
     public String execute(News news) {
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        NewsService newsService = serviceFactory.getNewsService();
         try {
             if (logger.isDebugEnabled()) {
                 logger.debug("FindNewsLogger in debug");

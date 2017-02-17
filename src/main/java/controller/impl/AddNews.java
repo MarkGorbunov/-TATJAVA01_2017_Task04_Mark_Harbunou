@@ -11,12 +11,11 @@ import service.factory.ServiceFactory;
 
 /**
  * Class that transfer request(add news) to service and return result of adding
- *
+ * <p>
  * Created by Mark_Harbunou on 2/1/2017.
  */
 public class AddNews implements Command {
-    private final ServiceFactory serviceFactory = ServiceFactory.getInstance();
-    private final NewsService newsService = serviceFactory.getNewsService();
+
     private static Logger logger = LogManager.getLogger(AddNews.class.getName());
 
     /**
@@ -26,8 +25,10 @@ public class AddNews implements Command {
      * @return result of request
      */
     @Override
-    public String execute(News news){
+    public String execute(News news) {
         String responce = "";
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        NewsService newsService = serviceFactory.getNewsService();
         try {
             if (logger.isDebugEnabled()) {
                 logger.debug("AddNewsLogger in debug");

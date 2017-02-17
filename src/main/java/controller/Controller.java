@@ -1,17 +1,13 @@
 package controller;
 
-import DAO.connectingPool.exception.ConnectingPoolException;
-import DAO.exception.DAOException;
+
 import bean.Category;
 import bean.News;
-import controller.impl.AddNews;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.NewsService;
 import service.exeption.ServiceException;
 import service.factory.ServiceFactory;
-
-import java.sql.SQLException;
 
 /**
  * Class that decide what to do with request from View
@@ -20,8 +16,6 @@ import java.sql.SQLException;
  */
 public class Controller {
     private static Logger logger = LogManager.getLogger(Controller.class.getName());
-    private final ServiceFactory serviceFactory = ServiceFactory.getInstance();
-    private final NewsService newsService = serviceFactory.getNewsService();
     private final CommandProvider provider = new CommandProvider();
 
     /**
@@ -51,7 +45,6 @@ public class Controller {
         return response;
     }
 
-
     private boolean checkCategory(String request) {
         if (Category.BOOKS.toString().equalsIgnoreCase(request)) {
             return true;
@@ -72,6 +65,8 @@ public class Controller {
      */
     public void initResources() {
         try {
+            ServiceFactory serviceFactory = ServiceFactory.getInstance();
+            NewsService newsService = serviceFactory.getNewsService();
             newsService.initResources();
         } catch (ServiceException e) {
             logger.error("error message: " + e);
@@ -85,6 +80,8 @@ public class Controller {
      */
     public void clearResources() {
         try {
+            ServiceFactory serviceFactory = ServiceFactory.getInstance();
+            NewsService newsService = serviceFactory.getNewsService();
             newsService.clearResources();
         } catch (ServiceException e) {
             logger.error("error message: " + e);

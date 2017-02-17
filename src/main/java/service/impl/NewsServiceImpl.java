@@ -14,9 +14,6 @@ import service.exeption.ServiceException;
  * Created by Mark_Harbunou on 2/1/2017.
  */
 public class NewsServiceImpl implements NewsService {
-    private final DAOFactory daoObjectFactory = DAOFactory.getInstance();
-    private final NewsDAO newsDAO = daoObjectFactory.getReadNewsImpl();
-
     /**
      * method that transfer news to dao
      *
@@ -26,6 +23,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void addNews(News news) throws ServiceException {
         try {
+            DAOFactory daoObjectFactory = DAOFactory.getInstance();
+            NewsDAO newsDAO = daoObjectFactory.getReadNewsImpl();
             newsDAO.addNews(news);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -42,6 +41,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public String findNews(News news) throws ServiceException {
         try {
+            DAOFactory daoObjectFactory = DAOFactory.getInstance();
+            NewsDAO newsDAO = daoObjectFactory.getReadNewsImpl();
             News newsForCheck = newsDAO.findNews(news);
             if (newsValidation(newsForCheck)) {
                 return "|Category: " + news.getCategory().toString() +
@@ -62,6 +63,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void initResources() throws ServiceException {
         try {
+            DAOFactory daoObjectFactory = DAOFactory.getInstance();
+            NewsDAO newsDAO = daoObjectFactory.getReadNewsImpl();
             newsDAO.connectionCreate();
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -76,6 +79,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void clearResources() throws ServiceException {
         try {
+            DAOFactory daoObjectFactory = DAOFactory.getInstance();
+            NewsDAO newsDAO = daoObjectFactory.getReadNewsImpl();
             newsDAO.connectionDestroy();
         } catch (DAOException e) {
             throw new ServiceException(e);
