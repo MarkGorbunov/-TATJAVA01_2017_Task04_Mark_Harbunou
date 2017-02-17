@@ -13,6 +13,6 @@ public interface Command {
      * @param news from View
      * @return result of request
      */
-     String execute(News news);
+    String execute(News news);
 
 }

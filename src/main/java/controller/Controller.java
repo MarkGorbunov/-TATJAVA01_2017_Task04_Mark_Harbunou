@@ -41,6 +41,9 @@ public class Controller {
         commandName = splittedRequest[0];
         executionCommand = provider.getCommand(commandName);
         String response;
+        if (checkCategory(splittedRequest[1]) == false) {
+            return "Category not found";
+        }
         Category category = Category.valueOf(splittedRequest[1].toUpperCase());
         String title = splittedRequest[2];
         String author = splittedRequest[3];
@@ -48,14 +51,28 @@ public class Controller {
         return response;
     }
 
+
+    private boolean checkCategory(String request) {
+        if (Category.BOOKS.toString().equalsIgnoreCase(request)) {
+            return true;
+        }
+        if (Category.DISKS.toString().equalsIgnoreCase(request)) {
+            return true;
+        }
+        if (Category.MOOVIES.toString().equalsIgnoreCase(request)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * method that call connection create in service
      *
      * @throws ServiceException
      */
-    public void connectionCreate() {
+    public void initResources() {
         try {
-            newsService.connectionCreate();
+            newsService.initResources();
         } catch (ServiceException e) {
             logger.error("error message: " + e);
         }
@@ -66,9 +83,9 @@ public class Controller {
      *
      * @throws ServiceException
      */
-    public void connectionDestroy() {
+    public void clearResources() {
         try {
-            newsService.connectionDestroy();
+            newsService.clearResources();
         } catch (ServiceException e) {
             logger.error("error message: " + e);
         }

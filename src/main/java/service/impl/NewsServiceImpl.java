@@ -42,7 +42,13 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public String findNews(News news) throws ServiceException {
         try {
-            return newsDAO.findNews(news);
+            News newsForCheck = newsDAO.findNews(news);
+            if (newsValidation(newsForCheck)) {
+                return "|Category: " + news.getCategory().toString() +
+                        " |Title: " + news.getTitle() +
+                        "|Author: " + news.getAuthor();
+            }
+            return "news not found";
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -54,7 +60,7 @@ public class NewsServiceImpl implements NewsService {
      * @throws ServiceException
      */
     @Override
-    public void connectionCreate() throws ServiceException {
+    public void initResources() throws ServiceException {
         try {
             newsDAO.connectionCreate();
         } catch (DAOException e) {
@@ -68,12 +74,19 @@ public class NewsServiceImpl implements NewsService {
      * @throws ServiceException
      */
     @Override
-    public void connectionDestroy() throws ServiceException {
+    public void clearResources() throws ServiceException {
         try {
             newsDAO.connectionDestroy();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
+    }
+
+    private boolean newsValidation(News news) throws DAOException {
+        if (news.getCategory() == null || news.getCategory() == null || news.getAuthor() == null) {
+            return false;
+        }
+        return true;
     }
 
 

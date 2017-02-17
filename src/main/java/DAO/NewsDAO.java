@@ -24,7 +24,7 @@ public interface NewsDAO {
      * @return found news
      * @throws DAOException
      */
-    String findNews(News news) throws DAOException;
+    News findNews(News news) throws DAOException;
 
     /**
      * method that create connection

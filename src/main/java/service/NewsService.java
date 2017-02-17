@@ -30,12 +30,12 @@ public interface NewsService {
      *
      * @throws ServiceException
      */
-    void connectionCreate() throws ServiceException;
+    void initResources() throws ServiceException;
 
     /**
      * method that call connection destroy in dao
      *
      * @throws ServiceException
      */
-    void connectionDestroy() throws ServiceException;
+    void clearResources() throws ServiceException;
 }

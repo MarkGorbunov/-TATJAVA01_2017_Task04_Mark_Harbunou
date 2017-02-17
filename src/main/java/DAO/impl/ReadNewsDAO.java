@@ -4,6 +4,7 @@ import DAO.NewsDAO;
 import DAO.connectingPool.ConnectingPool;
 import DAO.connectingPool.exception.ConnectingPoolException;
 import DAO.exception.DAOException;
+import bean.Category;
 import bean.News;
 
 import java.sql.*;
@@ -68,7 +69,16 @@ public class ReadNewsDAO implements NewsDAO {
         } catch (ConnectingPoolException e) {
             throw new DAOException(e);
         } finally {
-            connectingPool.closeConection(conn, ps);
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
         }
     }
 
@@ -79,7 +89,7 @@ public class ReadNewsDAO implements NewsDAO {
      * @throws DAOException
      */
     @Override
-    public String findNews(News news) throws DAOException {
+    public News findNews(News news) throws DAOException {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -98,7 +108,21 @@ public class ReadNewsDAO implements NewsDAO {
         } catch (ConnectingPoolException e) {
             throw new DAOException(e);
         } finally {
-            connectingPool.closeConection(conn, ps, rs);
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
         }
     }
 
@@ -108,23 +132,20 @@ public class ReadNewsDAO implements NewsDAO {
      * @param rs
      * @return
      */
-    private String newsChecker(ResultSet rs) {
-        String Category = null;
-        String Title = null;
-        String Author = null;
+    private News newsChecker(ResultSet rs) throws DAOException {
+        String category = null;
+        String title = null;
+        String author = null;
         try {
             while (rs.next()) {
-                Category = rs.getString(1);
-                Title = rs.getString(2);
-                Author = rs.getString(3);
-
+                category = rs.getString(1);
+                title = rs.getString(2);
+                author = rs.getString(3);
+                return (new News(Category.valueOf(category.toUpperCase()), title, author));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("something wrong with sql", e);
         }
-        if (Category == null || Title == null || Author == null) {
-            return "news not found";
-        }
-        return "|Category=" + Category + "|Title=" + Title + "|Author=" + Author + "|";
+        return (new News(null, null, null));
     }
 }

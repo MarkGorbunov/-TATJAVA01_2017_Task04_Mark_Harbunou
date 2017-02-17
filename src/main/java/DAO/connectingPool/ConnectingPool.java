@@ -91,31 +91,6 @@ public final class ConnectingPool {
         return connection;
     }
 
-    public void closeConection(Connection con, Statement st, ResultSet rs) {
-        try {
-            con.close();
-        } catch (SQLException e) {
-        }
-        try {
-            rs.close();
-        } catch (SQLException e) {
-        }
-        try {
-            st.close();
-        } catch (SQLException e) {
-        }
-    }
-
-    public void closeConection(Connection con, Statement st) {
-        try {
-            con.close();
-        } catch (SQLException e) {
-        }
-        try {
-            st.close();
-        } catch (SQLException e) {
-        }
-    }
 
     private void closeConectionQueue(BlockingQueue<Connection> queue) throws SQLException {
         Connection connection;

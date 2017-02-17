@@ -86,4 +86,6 @@ public class News implements Serializable{
         result = 31 * result + (author != null ? author.hashCode() : 0);
         return result;
     }
+
+
 }

@@ -18,7 +18,6 @@ import java.sql.*;
 public class ReadNewsDAOTest {
     ConnectingPool connectingPool = ConnectingPool.getInstance();
     ReadNewsDAO fileRead;
-    Connection connection;
 
     @BeforeTest
     public void connectionCreate() throws SQLException, ConnectingPoolException {
